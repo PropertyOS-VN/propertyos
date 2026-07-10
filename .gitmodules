@@ -1,0 +1,6 @@
+[submodule "apps/admin-app"]
+	path = apps/admin-app
+	url = https://github.com/PropertyOS-VN/propertyos-admin-app.git
+[submodule "apps/billing-service"]
+	path = apps/billing-service
+	url = https://github.com/PropertyOS-VN/propertyos-billing-service.git
