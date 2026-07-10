@@ -1,6 +1,6 @@
 # PropertyOS
 
-Monorepo hệ thống quản lý bất động sản cho thuê (nhà, văn phòng, chung cư, chung cư mini, phòng trọ).
+Hệ thống quản lý bất động sản cho thuê (nhà, văn phòng, chung cư, chung cư mini, phòng trọ). Tổ chức theo **multi-repo**: đây là repo gốc, 2 service nằm ở repo riêng và được gắn vào qua **git submodule** — tách để nhiều người làm việc song song không đụng code nhau, dù vẫn có 1 chỗ chứa docs/kiến trúc dùng chung.
 
 Kiến trúc: **Next.js full-stack** (`apps/admin-app`) xử lý auth + CRUD tòa nhà/phòng/hợp đồng qua Supabase, **Spring Boot** (`apps/billing-service`) xử lý sinh hóa đơn định kỳ + tính toán tài chính — tối ưu cho free tier, và giữ trọn Java để thực hành.
 
@@ -12,31 +12,33 @@ Kiến trúc: **Next.js full-stack** (`apps/admin-app`) xử lý auth + CRUD tò
 - [Tech stack](docs/TECH_STACK.md)
 - [Roadmap triển khai](docs/ROADMAP.md)
 
-## Cấu trúc repo (monorepo)
+## Các repo trong tổ chức `PropertyOS-VN`
 
+| Repo | Vai trò |
+|---|---|
+| [`propertyos`](https://github.com/PropertyOS-VN/propertyos) (repo này) | Docs, kiến trúc chung, AGENTS.md/CLAUDE.md, `.cursor/rules`, `.claude/skills`, docker-compose dev local |
+| [`propertyos-admin-app`](https://github.com/PropertyOS-VN/propertyos-admin-app) | Next.js — app quản lý (chủ nhà/quản lý): auth, building, room, contract qua Supabase |
+| [`propertyos-billing-service`](https://github.com/PropertyOS-VN/propertyos-billing-service) | Spring Boot — sinh hoá đơn, tính toán tài chính, deploy Cloud Run |
+
+Dự kiến sau này thêm `propertyos-tenant-app` (hoặc tên tương tự) — app cho người thuê xem thông tin nhà/phòng để thuê, cũng sẽ là 1 repo + submodule riêng. Chưa tạo, sẽ bổ sung khi cần.
+
+## Clone repo (lần đầu)
+
+Vì 2 app nằm ở submodule, phải clone kèm `--recurse-submodules`, không thì `apps/admin-app` và `apps/billing-service` sẽ rỗng:
+
+```bash
+git clone --recurse-submodules https://github.com/PropertyOS-VN/propertyos.git
 ```
-property-mgmt-root/
-├── docs/                     # toàn bộ tài liệu thiết kế
-├── docker-compose.yml        # Postgres + MongoDB cho dev local (mô phỏng Supabase/Atlas)
-└── apps/
-    ├── admin-app/               # Next.js — app quản lý (chủ nhà/quản lý): auth, building, room, contract qua Supabase
-    ├── billing-service/       # Spring Boot — sinh hoá đơn, tính toán tài chính, deploy Cloud Run
-    ├── auth-service/          # DEPRECATED — đã gộp vào admin-app (Supabase Auth)
-    ├── building-service/      # DEPRECATED — đã gộp vào admin-app
-    └── gateway-service/       # DEPRECATED — không cần gateway riêng nữa
+
+Nếu đã clone thường (quên `--recurse-submodules`), chạy bù:
+
+```bash
+git submodule update --init --recursive
 ```
 
-Dự kiến sau này thêm `apps/tenant-app` (hoặc tên tương tự) — app cho người thuê xem thông tin nhà/phòng để thuê, tách riêng khỏi `admin-app`. Chưa scaffold, sẽ bổ sung khi cần.
+## Làm việc với submodule
 
-Các thư mục đánh dấu DEPRECATED chỉ giữ lại để tham khảo thiết kế cũ (NestJS/MariaDB/RabbitMQ), không build/deploy — chi tiết lý do đổi hướng xem `docs/ARCHITECTURE.md`.
-
-## Sau khi tạo repo trên GitHub
-
-1. Tạo 1 repo trên GitHub: `propertyos` (private).
-2. Push toàn bộ monorepo:
-   ```bash
-   cd property-mgmt-root && git remote add origin git@github.com:<your-username>/propertyos.git && git push -u origin main
-   ```
+Mỗi submodule (`apps/admin-app`, `apps/billing-service`) là **1 git repo độc lập** — commit/push code bên trong nó như bình thường (`cd apps/admin-app && git add/commit/push`). Repo gốc (`propertyos`) chỉ lưu **con trỏ tới 1 commit cụ thể** của mỗi submodule; sau khi push submodule, quay lại repo gốc, `git add apps/admin-app` (hoặc `billing-service`) rồi commit + push để cập nhật con trỏ đó — nếu bỏ qua bước này, người khác clone repo gốc sẽ vẫn thấy submodule ở commit cũ.
 
 ## Chạy dev local (Postgres + MongoDB + billing-service)
 

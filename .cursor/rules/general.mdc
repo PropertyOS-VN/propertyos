@@ -4,10 +4,10 @@ alwaysApply: false
 
 # PropertyOS — quy tắc chung
 
-Đây là monorepo gồm 2 phần: `apps/admin-app` (Next.js) và `apps/billing-service` (Spring Boot). Mỗi phần có rule riêng — xem `frontend-nextjs.mdc` và `backend-spring-boot.mdc`.
+Đây là repo gốc (multi-repo, không phải monorepo). `apps/admin-app` (Next.js) và `apps/billing-service` (Spring Boot) là **git submodule**, mỗi cái là 1 repo GitHub riêng trong org `PropertyOS-VN`. Mỗi phần có rule riêng — xem `frontend-nextjs.mdc` và `backend-spring-boot.mdc`.
 
+- Commit/push trong submodule như repo độc lập, xong quay lại repo gốc `git add apps/<app>` + commit + push để cập nhật con trỏ — không làm bước này thì repo gốc vẫn trỏ commit cũ.
 - Đọc `docs/ARCHITECTURE.md`, `docs/DATABASE.md`, `docs/TECH_STACK.md` trước khi thêm tính năng liên quan kiến trúc/DB.
-- Không sửa/build lại `apps/auth-service`, `apps/building-service`, `apps/gateway-service` — đã DEPRECATED, chỉ giữ tham khảo.
 - `apps/admin-app` và `apps/billing-service` dùng chung Supabase (Postgres) + MongoDB Atlas — không tạo DB riêng cho từng service.
 - Không commit secret — luôn dùng biến môi trường + `.env.example` làm mẫu.
 - Kiểm tra version thực tế của dependency (Next.js, React, Spring Boot...) trước khi thêm/sửa, đừng dùng version cũ trong training data.
