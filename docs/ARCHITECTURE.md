@@ -5,7 +5,7 @@
 | Thư mục | Vai trò | Ngôn ngữ/Framework | Hosting |
 |---|---|---|---|
 | `apps/admin-app` | FE + BE nhẹ: đăng nhập, quản lý tòa nhà/phòng, hợp đồng, xem hóa đơn | Next.js (App Router) + React + Tailwind + Framer Motion + HeroUI v2 + HeroUI Pro | Vercel (free) |
-| `apps/billing-service` | Sinh hóa đơn định kỳ, tính tiền điện/nước/dịch vụ, báo cáo tài chính | Java 25 + Spring Boot 4 | Google Cloud Run (free tier) |
+| `apps/billing-service` | Sinh hóa đơn định kỳ, tính tiền điện/nước/dịch vụ, báo cáo tài chính | Java 17 + Spring Boot 4 | Google Cloud Run (free tier) |
 
 Không còn NestJS, không còn tách 4 service riêng — gộp về 2 thành phần để vừa dễ deploy free, vừa giữ trọn Java cho phần cần học/thực hành.
 

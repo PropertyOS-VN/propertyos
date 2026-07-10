@@ -16,7 +16,7 @@
 
 | Thành phần | Lựa chọn | Ghi chú |
 |---|---|---|
-| Ngôn ngữ | Java 25 (LTS) | |
+| Ngôn ngữ | Java 17 (LTS) | |
 | Framework | Spring Boot 4 | |
 | Data (Postgres) | Spring Data JPA + driver `org.postgresql:postgresql` | Kết nối Supabase Postgres qua connection string chuẩn |
 | Data (Mongo) | Spring Data MongoDB | Kết nối MongoDB Atlas qua connection string |
