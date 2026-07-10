@@ -11,6 +11,7 @@ Kiến trúc: **Next.js full-stack** (`apps/admin-app`) xử lý auth + CRUD tò
 - [Thiết kế database](docs/DATABASE.md)
 - [Tech stack](docs/TECH_STACK.md)
 - [Roadmap triển khai](docs/ROADMAP.md)
+- [Luồng làm việc Claude + Cursor](docs/WORKFLOW.md)
 
 ## Các repo trong tổ chức `PropertyOS-VN`
 
