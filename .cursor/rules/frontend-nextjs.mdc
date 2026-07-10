@@ -25,4 +25,11 @@ Skill hữu ích cho project này: `nextjs`, `react-best-practices`, `next-cache
 - Next.js 16: Turbopack mặc định, dùng Cache Components (`use cache`) khi cần cache, không dùng pattern Pages Router.
 - `@heroui/react` pin ở v2 (`^2.8.10`) — KHÔNG bump lên v3 (viết lại toàn bộ, mất `HeroUIProvider`, không tương thích license Pro hiện có). Import component từ package lẻ (`@heroui/button`...), không từ `@heroui/react`.
 
+## Code style — component & comment
+
+- Luôn viết function component, không dùng class component.
+- Mỗi function (component/hook/helper) có JSDoc tóm tắt tính năng phía trên.
+- Comment giải thích đoạn code khó hiểu/logic đặc biệt khi cần thiết, không comment thừa những dòng đã tự rõ nghĩa.
+- Comment 1 dòng dùng `//`, comment nhiều dòng dùng `/* ... */`.
+
 Xem đầy đủ ở `apps/admin-app/AGENTS.md`.
