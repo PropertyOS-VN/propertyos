@@ -1,0 +1,50 @@
+version: "3.9"
+
+# Hạ tầng dev LOCAL — mô phỏng Supabase (Postgres) + MongoDB Atlas khi code offline.
+# Production dùng Supabase + MongoDB Atlas thật (xem docs/TECH_STACK.md), không dùng
+# docker-compose này để deploy — chỉ để dev/test trên máy.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  mongodb:
+    image: mongo:7
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+  billing-service:
+    build:
+      context: ./apps/billing-service
+    restart: unless-stopped
+    environment:
+      PORT: 8082
+      SUPABASE_DB_URL: jdbc:postgresql://postgres:5432/postgres
+      SUPABASE_DB_USER: postgres
+      SUPABASE_DB_PASSWORD: postgres
+      MONGODB_ATLAS_URI: mongodb://mongodb:27017/billing_service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - postgres
+      - mongodb
+
+volumes:
+  postgres_data:
+  mongodb_data:

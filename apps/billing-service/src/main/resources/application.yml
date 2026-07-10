@@ -1,0 +1,36 @@
+# Cloud Run tự set biến PORT khi deploy (mặc định 8080) — để trống là dùng đúng giá trị đó.
+server:
+  port: ${PORT:8082}
+
+spring:
+  application:
+    name: billing-service
+
+  # Supabase Postgres — lấy connection string trong Supabase Dashboard > Project Settings > Database
+  datasource:
+    url: ${SUPABASE_DB_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${SUPABASE_DB_USER:postgres}
+    password: ${SUPABASE_DB_PASSWORD:postgres}
+  jpa:
+    hibernate:
+      ddl-auto: validate   # dùng migration (Flyway/SQL Supabase) thay vì để Hibernate tự tạo bảng ở production
+    open-in-view: false
+    properties:
+      hibernate:
+        default_schema: public
+
+  # MongoDB Atlas — lấy connection string trong Atlas Dashboard > Connect
+  data:
+    mongodb:
+      uri: ${MONGODB_ATLAS_URI:mongodb://localhost:27017/billing_service}
+
+  # Verify JWT do Supabase Auth phát hành (web-app gọi sang kèm access_token)
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${SUPABASE_JWKS_URL:https://<project-ref>.supabase.co/auth/v1/.well-known/jwks.json}
+
+app:
+  email:
+    resend-api-key: ${RESEND_API_KEY:}
