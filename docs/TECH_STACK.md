@@ -1,13 +1,13 @@
 # Tech Stack (v2 — tối ưu free tier + học Java)
 
-## Frontend + BE nhẹ (`apps/web-app`)
+## Frontend + BE nhẹ (`apps/admin-app`)
 
 | Thành phần | Lựa chọn | Ghi chú |
 |---|---|---|
 | Framework | Next.js (latest, App Router) | Route Handlers/Server Actions cho CRUD đơn giản |
 | UI library | React (latest) | |
 | Styling | Tailwind CSS (latest) | |
-| Animation | Framer Motion | |
+| Animation | Framer Motion | peer dependency bắt buộc của HeroUI v2, giữ nguyên tên gói `framer-motion` |
 | Component kit | HeroUI (v2.heroui.com) + HeroUI Pro (đã có license) | |
 | Data/Auth client | `@supabase/supabase-js` + `@supabase/ssr` | Auth (session cookie) + query Postgres trực tiếp |
 | Form | React Hook Form + Zod | |
@@ -16,12 +16,12 @@
 
 | Thành phần | Lựa chọn | Ghi chú |
 |---|---|---|
-| Ngôn ngữ | Java 21 | |
-| Framework | Spring Boot 3 | |
+| Ngôn ngữ | Java 25 (LTS) | |
+| Framework | Spring Boot 4 | |
 | Data (Postgres) | Spring Data JPA + driver `org.postgresql:postgresql` | Kết nối Supabase Postgres qua connection string chuẩn |
 | Data (Mongo) | Spring Data MongoDB | Kết nối MongoDB Atlas qua connection string |
 | Job định kỳ | Spring Scheduler (`@Scheduled`) | Sinh hóa đơn đầu kỳ, có thể nâng lên Cloud Scheduler gọi endpoint nếu muốn kiểm soát lịch từ ngoài |
-| Xác thực request từ web-app | Spring Security + JWT (verify JWKS của Supabase) | Không tự phát hành token, chỉ verify token Supabase |
+| Xác thực request từ admin-app | Spring Security + JWT (verify JWKS của Supabase) | Không tự phát hành token, chỉ verify token Supabase |
 | Email | Resend (hoặc SMTP) | Gửi email hóa đơn/nhắc thanh toán |
 
 ## Cơ sở dữ liệu & hạ tầng

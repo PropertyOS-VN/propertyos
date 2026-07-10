@@ -1,0 +1,28 @@
+---
+alwaysApply: false
+---
+
+# admin-app — Next.js (PropertyOS)
+
+Ưu tiên dùng skill của Vercel Plugin trước khi tự viết rule Next.js/React từ đầu:
+
+```bash
+cd apps/admin-app
+pnpm dlx plugins add vercel/vercel-plugin
+```
+
+Dùng **pnpm** cho mọi lệnh package manager (`pnpm install`/`pnpm add`/`pnpm dlx`) — không dùng `npm`/`yarn`/`npx`.
+
+Skill hữu ích cho project này: `nextjs`, `react-best-practices`, `next-cache-components`, `turbopack`, `vercel-cli`, `deployments-cicd`.
+
+## Quy tắc đặc thù PropertyOS
+
+- Auth & DB đi qua Supabase (`@supabase/supabase-js` + `@supabase/ssr`) — không tự viết JWT/session.
+- Dùng `src/lib/supabase/server.ts` trong Server Component/Route Handler, `src/lib/supabase/client.ts` trong Client Component.
+- CRUD đơn giản (building/room/contract) → gọi thẳng Supabase. Tính toán/sinh hóa đơn → gọi `src/lib/billing-client.ts` sang `billing-service`, không tự implement logic tài chính ở FE.
+- Bật RLS cho mọi bảng Supabase mới — xem `docs/DATABASE.md`.
+- Ưu tiên HeroUI Pro block có sẵn trước khi tự viết component mới.
+- Next.js 16: Turbopack mặc định, dùng Cache Components (`use cache`) khi cần cache, không dùng pattern Pages Router.
+- `@heroui/react` pin ở v2 (`^2.8.10`) — KHÔNG bump lên v3 (viết lại toàn bộ, mất `HeroUIProvider`, không tương thích license Pro hiện có). Import component từ package lẻ (`@heroui/button`...), không từ `@heroui/react`.
+
+Xem đầy đủ ở `apps/admin-app/AGENTS.md`.

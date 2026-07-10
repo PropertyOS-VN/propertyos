@@ -1,6 +1,0 @@
-target
-.mvn
-*.class
-.env
-.env.*
-*.log

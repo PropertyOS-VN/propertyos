@@ -1,0 +1,14 @@
+---
+alwaysApply: false
+---
+
+# PropertyOS — quy tắc chung
+
+Đây là monorepo gồm 2 phần: `apps/admin-app` (Next.js) và `apps/billing-service` (Spring Boot). Mỗi phần có rule riêng — xem `frontend-nextjs.mdc` và `backend-spring-boot.mdc`.
+
+- Đọc `docs/ARCHITECTURE.md`, `docs/DATABASE.md`, `docs/TECH_STACK.md` trước khi thêm tính năng liên quan kiến trúc/DB.
+- Không sửa/build lại `apps/auth-service`, `apps/building-service`, `apps/gateway-service` — đã DEPRECATED, chỉ giữ tham khảo.
+- `apps/admin-app` và `apps/billing-service` dùng chung Supabase (Postgres) + MongoDB Atlas — không tạo DB riêng cho từng service.
+- Không commit secret — luôn dùng biến môi trường + `.env.example` làm mẫu.
+- Kiểm tra version thực tế của dependency (Next.js, React, Spring Boot...) trước khi thêm/sửa, đừng dùng version cũ trong training data.
+- `apps/admin-app` dùng pnpm (`packageManager` trong `package.json`) — không dùng npm/yarn/npx.

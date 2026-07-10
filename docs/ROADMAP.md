@@ -30,7 +30,7 @@
 - Job định kỳ (`@Scheduled`) sinh hóa đơn đầu kỳ cho các hợp đồng active, tính tiền thuê + điện + nước + dịch vụ.
 - API ghi nhận thanh toán, cập nhật trạng thái invoice.
 - Gửi email qua Resend sau khi sinh hóa đơn.
-- Verify JWT Supabase cho request gọi từ `web-app` (Spring Security).
+- Verify JWT Supabase cho request gọi từ `admin-app` (Spring Security).
 - Deploy thử lên Google Cloud Run.
 - **Milestone**: tạo hợp đồng ở Next.js → job Java tự sinh hóa đơn đúng kỳ → ghi nhận thanh toán → nhận được email.
 
@@ -39,7 +39,7 @@
 - Nút "Tạo hóa đơn thủ công" gọi API `billing-service`.
 
 ## Giai đoạn 6 — Deploy production (vài ngày)
-- Deploy `apps/web-app` lên Vercel (free), set biến môi trường Supabase.
+- Deploy `apps/admin-app` lên Vercel (free), set biến môi trường Supabase.
 - Deploy `apps/billing-service` lên Google Cloud Run (free tier), set biến môi trường Postgres/Mongo connection.
 - Set Cloud Scheduler (nếu muốn kiểm soát lịch sinh hóa đơn từ ngoài thay vì `@Scheduled` cố định trong code).
 
