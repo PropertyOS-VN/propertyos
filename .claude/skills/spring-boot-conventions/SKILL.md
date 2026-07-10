@@ -1,11 +1,11 @@
 ---
 name: spring-boot-conventions
-description: Quy ước code Spring Boot cho billing-service của PropertyOS — kiến trúc theo domain package, DTO/Entity tách biệt, transaction cho thao tác tài chính, verify JWT Supabase, kết nối Postgres (Supabase) + MongoDB Atlas, deploy Cloud Run. Dùng khi tạo/sửa code trong apps/billing-service.
+description: Quy ước code Spring Boot cho billing-service của PropertyOS — kiến trúc theo domain package, DTO/Entity tách biệt, transaction cho thao tác tài chính, verify JWT Supabase, kết nối Postgres (Supabase) + MongoDB Atlas, deploy Cloud Run. Dùng khi tạo/sửa code trong repo propertyos-billing-service.
 ---
 
 # Spring Boot conventions — billing-service (PropertyOS)
 
-Skill này áp dụng riêng cho `apps/billing-service`. Dùng khi được yêu cầu thêm entity/API/job mới, refactor, viết test, hoặc chuẩn bị deploy Cloud Run cho service này.
+Repo này (`propertyos-billing-service`) là submodule của repo gốc `propertyos`. Skill này dùng khi được yêu cầu thêm entity/API/job mới, refactor, viết test, hoặc chuẩn bị deploy Cloud Run cho service này.
 
 ## 1. Kiến trúc: domain package, không phải layer phẳng
 
@@ -104,6 +104,10 @@ Dùng `@Scheduled` (đã bật `@EnableScheduling` ở `BillingServiceApplicatio
 - Mock `InvoiceRepository`/Mongo repository trong unit test Service — không kết nối DB thật.
 - Ưu tiên test case: sinh hóa đơn đúng hạn, hợp đồng hết hạn giữa kỳ, thanh toán một phần, thanh toán đủ.
 
+## 10. Comment tiếng Việt
+
+Comment/Javadoc tiếng Việt phải gõ có dấu đầy đủ (VD: "Sinh hoá đơn cho hợp đồng đang active" — không viết "Sinh hoa don cho hop dong dang active"). Không dùng tiếng Việt không dấu trong code.
+
 ## Áp dụng cho Cursor
 
-Nội dung skill này cũng nên được Cursor đọc — xem `.cursor/rules/backend-spring-boot.mdc` (glob `apps/billing-service/**`), file đó tóm tắt lại các quy tắc trên theo format Cursor Rules.
+Nội dung skill này cũng nên được Cursor đọc — xem `.cursor/rules/backend-spring-boot.mdc` trong repo này, file đó tóm tắt lại các quy tắc trên theo format Cursor Rules.

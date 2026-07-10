@@ -31,5 +31,6 @@ Skill hữu ích cho project này: `nextjs`, `react-best-practices`, `next-cache
 - Mỗi function (component/hook/helper) có JSDoc tóm tắt tính năng phía trên.
 - Comment giải thích đoạn code khó hiểu/logic đặc biệt khi cần thiết, không comment thừa những dòng đã tự rõ nghĩa.
 - Comment 1 dòng dùng `//`, comment nhiều dòng dùng `/* ... */`.
+- Comment/JSDoc tiếng Việt phải gõ có dấu đầy đủ, không viết tiếng Việt không dấu.
 
 Xem đầy đủ ở `apps/admin-app/AGENTS.md`.

@@ -12,5 +12,6 @@ alwaysApply: false
 - Postgres (Supabase) cho dữ liệu tài chính (invoice, payment, contract), MongoDB Atlas cho dữ liệu linh hoạt/log (meter_readings, notification_logs) — không lưu lẫn.
 - Đọc port từ `${PORT:8082}`, không hardcode — deploy target là Google Cloud Run.
 - Test: JUnit 5 + Mockito, mock repository trong unit test Service, không kết nối DB thật.
+- Comment/Javadoc tiếng Việt phải gõ có dấu đầy đủ, không viết tiếng Việt không dấu.
 
 Chi tiết đầy đủ + ví dụ code ở `.claude/skills/spring-boot-conventions/SKILL.md` và `apps/billing-service/AGENTS.md`.
