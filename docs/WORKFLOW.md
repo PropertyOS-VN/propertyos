@@ -18,10 +18,10 @@ Nguyên tắc phân vai: **Claude nghĩ, Cursor viết**. Claude không sửa co
 
 1. **Tạo issue** trên GitHub (repo tương ứng: `propertyos-admin-app` hoặc `propertyos-billing-service`, hoặc `propertyos` nếu ảnh hưởng cả 2). Mô tả ngắn gọn vấn đề/tính năng.
 2. **Claude lên plan** — dán nội dung issue vào Claude, yêu cầu viết plan: mục tiêu, phạm vi (làm gì/không làm gì), các bước implement theo thứ tự, file/module sẽ đụng tới, edge case cần test. Dán plan này làm comment vào issue (hoặc lưu `docs/specs/<ten-task>.md` nếu là thay đổi lớn ảnh hưởng kiến trúc).
-3. **Tạo branch**, implement bằng Cursor theo đúng plan — Cursor tự đọc `AGENTS.md`/`CLAUDE.md`/`.cursor/rules` của repo đó để theo đúng convention (đã setup sẵn cho cả `admin-app` và `billing-service`).
-4. **Mở PR**, dán link PR (hoặc diff) cho Claude review. Yêu cầu Claude: (a) đối chiếu code với plan ban đầu — có làm đúng phạm vi không, (b) rà theo checklist review bên dưới, (c) liệt kê điểm cần sửa, xếp theo mức độ (bắt buộc sửa / nên sửa / góp ý thêm).
+3. **Tạo branch từ `dev`** (không tạo từ `main`), implement bằng Cursor theo đúng plan — Cursor tự đọc `AGENTS.md`/`CLAUDE.md`/`.cursor/rules` của repo đó để theo đúng convention (đã setup sẵn cho cả `admin-app` và `billing-service`).
+4. **Mở PR vào `dev`**, dán link PR (hoặc diff) cho Claude review. Yêu cầu Claude: (a) đối chiếu code với plan ban đầu — có làm đúng phạm vi không, (b) rà theo checklist review bên dưới, (c) liệt kê điểm cần sửa, xếp theo mức độ (bắt buộc sửa / nên sửa / góp ý thêm).
 5. **Cursor sửa theo review** — không cần hỏi lại Claude từng điểm nhỏ, chỉ quay lại hỏi nếu Claude review có điểm mơ hồ hoặc phát sinh vấn đề mới ngoài plan ban đầu.
-6. **Merge** khi review không còn điểm bắt buộc sửa. Nếu task có thay đổi submodule (`admin-app`/`billing-service`), nhớ quay lại repo gốc `propertyos` cập nhật con trỏ submodule (xem `AGENTS.md` root).
+6. **Merge vào `dev`** khi review không còn điểm bắt buộc sửa và CI pass. Nếu task có thay đổi submodule (`admin-app`/`billing-service`), nhớ quay lại repo gốc `propertyos` cập nhật con trỏ submodule (xem `AGENTS.md` root). Khi `dev` đã tích lũy đủ việc và test ổn, mở PR `dev` → `main` (xem mục "Chiến lược branch" bên dưới) để lên production.
 
 ## Checklist Claude dùng khi review
 
@@ -33,6 +33,18 @@ Nguyên tắc phân vai: **Claude nghĩ, Cursor viết**. Claude không sửa co
 - Test: có test cho phần logic quan trọng chưa (đặc biệt các case tài chính ở `billing-service`).
 
 Có thể dùng thẳng skill `code-review` (Claude) cho bước này thay vì tự liệt kê lại checklist mỗi lần.
+
+## Chiến lược branch: `dev` là cổng trung gian trước `main`
+
+Áp dụng cho cả 3 repo (`propertyos`, `propertyos-admin-app`, `propertyos-billing-service`). `main` chỉ chứa code đã qua kiểm tra, `dev` là nơi tích hợp các nhánh feature trước khi lên `main`.
+
+- **Luồng**: `feature/xxx` → PR vào `dev` (CI: lint/typecheck/test/build phải pass) → gộp vào `dev` → khi `dev` ổn định, PR `dev` → `main` → merge lên production.
+- **`dev` chỉ là cổng CI**, không deploy riêng — đỡ tốn công dựng thêm Supabase/Mongo/Cloud Run cho môi trường thứ 2. Nếu cần xem giao diện `admin-app` trực quan trước khi merge, dùng Preview Deployment mà Vercel tự tạo cho mỗi PR/branch (không cần cấu hình gì thêm).
+- **Branch protection** (Settings → Branches, tạo rule cho cả `main` và `dev` ở từng repo):
+  - `dev`: bắt buộc PR + CI pass trước khi merge.
+  - `main`: bắt buộc PR + CI pass + review từ Code Owners (xem `CODEOWNERS`) — không cho push thẳng, kể cả từ `dev`.
+- **Repo `propertyos` (root)**: docs/config ít rủi ro hơn, có thể để linh hoạt hơn (VD: bỏ qua yêu cầu CODEOWNERS cho `dev`, chỉ giữ ở `main`) nếu thấy flow đầy đủ quá nặng cho việc sửa docs nhỏ.
+- **CI đã cấu hình** chạy trên cả `push`/`pull_request` tới `main` và `dev` (`apps/admin-app/.github/workflows/ci.yml`, `apps/billing-service/.github/workflows/ci.yml`).
 
 ## Khi nào KHÔNG theo flow đầy đủ này
 
