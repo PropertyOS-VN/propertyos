@@ -1,0 +1,7 @@
+# Xem cú pháp đầy đủ: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+#
+# Quy tắc match theo thứ tự xuất hiện, dòng match sau cùng thắng — nếu thêm
+# rule cụ thể hơn cho 1 thư mục, đặt rule đó BÊN DƯỚI dòng "*" mặc định.
+
+# Mặc định: toàn bộ repo (docs, kiến trúc chung, AGENTS.md/.cursor/rules/.claude/skills)
+* @duyelbi
