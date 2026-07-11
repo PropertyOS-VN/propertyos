@@ -1,11 +1,11 @@
 ---
 name: spring-boot-conventions
-description: Quy ước code Spring Boot cho billing-service của PropertyOS — kiến trúc theo domain package, DTO/Entity tách biệt, transaction cho thao tác tài chính, verify JWT Supabase, kết nối Postgres (Supabase) + MongoDB Atlas, deploy Cloud Run. Dùng khi tạo/sửa code trong repo propertyos-billing-service.
+description: Quy ước code Spring Boot cho billing-service của PropertyOS — kiến trúc theo domain package, DTO/Entity tách biệt, transaction cho thao tác tài chính, verify JWT Supabase, kết nối Postgres (Supabase) + MongoDB Atlas, deploy Render. Dùng khi tạo/sửa code trong repo propertyos-billing-service.
 ---
 
 # Spring Boot conventions — billing-service (PropertyOS)
 
-Repo này (`propertyos-billing-service`) là submodule của repo gốc `propertyos`. Skill này dùng khi được yêu cầu thêm entity/API/job mới, refactor, viết test, hoặc chuẩn bị deploy Cloud Run cho service này.
+Repo này (`propertyos-billing-service`) là submodule của repo gốc `propertyos`. Skill này dùng khi được yêu cầu thêm entity/API/job mới, refactor, viết test, hoặc chuẩn bị deploy Render cho service này.
 
 ## 1. Kiến trúc: domain package, không phải layer phẳng
 
@@ -90,13 +90,15 @@ Không lưu dữ liệu tài chính vào Mongo, không lưu log/dữ liệu linh
 
 ## 7. Job định kỳ
 
-Dùng `@Scheduled` (đã bật `@EnableScheduling` ở `BillingServiceApplication`). Cron viết theo giờ Việt Nam trong comment kèm giá trị UTC nếu server chạy timezone khác — Cloud Run mặc định chạy UTC, nên nếu muốn "00:05 giờ VN ngày 1 hàng tháng" thì cron phải tính lệch +7h hoặc set `TZ=Asia/Ho_Chi_Minh` ở Cloud Run.
+Dùng `@Scheduled` (đã bật `@EnableScheduling` ở `BillingServiceApplication`). Cron viết theo giờ Việt Nam trong comment kèm giá trị UTC nếu server chạy timezone khác — container trên Render mặc định chạy UTC, nên nếu muốn "00:05 giờ VN ngày 1 hàng tháng" thì cron phải tính lệch +7h hoặc set biến môi trường `TZ=Asia/Ho_Chi_Minh` ở Render.
 
-## 8. Deploy Cloud Run
+## 8. Deploy Render
 
-- Đọc port từ `${PORT:8082}` (đã cấu hình) — không hardcode.
+- Đọc port từ `${PORT:8082}` (đã cấu hình) — không hardcode, Render cũng tự set `PORT` giống Cloud Run.
 - Test image local trước khi deploy: `docker build -t billing-service . && docker run -p 8082:8080 -e PORT=8080 billing-service`.
-- Biến môi trường nhạy cảm (SUPABASE_DB_PASSWORD, MONGODB_ATLAS_URI...) set qua `gcloud run deploy --set-env-vars` hoặc Secret Manager, không commit vào repo.
+- Deploy qua Render Dashboard (New → Web Service → Runtime: Docker → Instance Type: Free), không cần CLI.
+- Biến môi trường nhạy cảm (SUPABASE_DB_PASSWORD, MONGODB_ATLAS_URI...) set ở Render Dashboard > service > Environment, không commit vào repo.
+- Free tier Render sleep sau 15 phút không traffic, cold start ~30-50s — chấp nhận được vì không cần thẻ tín dụng, không có rủi ro phát sinh phí.
 
 ## 9. Test
 

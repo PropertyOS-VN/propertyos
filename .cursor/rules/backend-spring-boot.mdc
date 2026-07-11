@@ -10,7 +10,7 @@ alwaysApply: false
 - Mọi flow ghi invoice/invoice_items/payments phải nằm trong 1 `@Transactional` ở tầng Service.
 - Không tự phát hành JWT — chỉ verify token Supabase qua `SecurityConfig` (JWKS). Endpoint mới mặc định yêu cầu authenticated.
 - Postgres (Supabase) cho dữ liệu tài chính (invoice, payment, contract), MongoDB Atlas cho dữ liệu linh hoạt/log (meter_readings, notification_logs) — không lưu lẫn.
-- Đọc port từ `${PORT:8082}`, không hardcode — deploy target là Google Cloud Run.
+- Đọc port từ `${PORT:8082}`, không hardcode — deploy target là Render (free, không cần thẻ tín dụng).
 - Test: JUnit 5 + Mockito, mock repository trong unit test Service, không kết nối DB thật.
 - Comment/Javadoc tiếng Việt phải gõ có dấu đầy đủ, không viết tiếng Việt không dấu.
 

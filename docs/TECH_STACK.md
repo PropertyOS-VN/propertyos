@@ -31,9 +31,9 @@
 | Postgres + Auth | Supabase | 500MB DB, 50.000 MAU auth, 1GB storage |
 | NoSQL | MongoDB Atlas (M0) | 512MB, vĩnh viễn miễn phí |
 | FE hosting | Vercel (Hobby) | 100GB băng thông, 100k function invocations/tháng |
-| BE hosting | Google Cloud Run | 2 triệu request/tháng, miễn phí vĩnh viễn (không như trial credit) |
+| BE hosting | Render (Free Web Service) | Không cần thẻ tín dụng — không có rủi ro phát sinh phí. Đánh đổi: container sleep sau 15 phút không traffic, cold start ~30-50s |
 | Local dev | Docker Compose (Postgres + MongoDB local) | Không tốn phí, mô phỏng Supabase/Atlas khi code offline |
 
 ## Vì sao chọn stack này
 
-Next.js xử lý thẳng phần CRUD đơn giản qua Supabase — không cần thêm tầng NestJS/API riêng, giảm số thành phần phải deploy và maintain. Toàn bộ phần "khó" về nghiệp vụ (tính hóa đơn, job định kỳ, báo cáo tài chính) dồn về 1 service Java duy nhất — vừa dùng đúng thế mạnh của Spring Boot (transaction, batch, scheduler), vừa cho bạn thực hành Java trọn vẹn thay vì chia nhỏ giữa nhiều ngôn ngữ. Google Cloud Run được chọn thay Render vì free tier bền hơn (không giới hạn theo tháng kiểu trial, không cần lo hết credit).
+Next.js xử lý thẳng phần CRUD đơn giản qua Supabase — không cần thêm tầng NestJS/API riêng, giảm số thành phần phải deploy và maintain. Toàn bộ phần "khó" về nghiệp vụ (tính hóa đơn, job định kỳ, báo cáo tài chính) dồn về 1 service Java duy nhất — vừa dùng đúng thế mạnh của Spring Boot (transaction, batch, scheduler), vừa cho bạn thực hành Java trọn vẹn thay vì chia nhỏ giữa nhiều ngôn ngữ. Render được chọn thay Google Cloud Run vì free tier không yêu cầu liên kết thẻ tín dụng — loại bỏ hoàn toàn rủi ro phát sinh phí ngoài ý muốn, phù hợp với dự án cá nhân giai đoạn học/thực hành; đánh đổi là cold start sau thời gian không có traffic, chấp nhận được vì `billing-service` chưa cần phản hồi tức thời (job nền + API nội bộ gọi từ `admin-app`, không phải endpoint user-facing thời gian thực).

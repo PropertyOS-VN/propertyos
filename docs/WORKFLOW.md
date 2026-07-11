@@ -39,7 +39,7 @@ Có thể dùng thẳng skill `code-review` (Claude) cho bước này thay vì t
 Áp dụng cho cả 3 repo (`propertyos`, `propertyos-admin-app`, `propertyos-billing-service`). `main` chỉ chứa code đã qua kiểm tra, `dev` là nơi tích hợp các nhánh feature trước khi lên `main`.
 
 - **Luồng**: `feature/xxx` → PR vào `dev` (CI: lint/typecheck/test/build phải pass) → gộp vào `dev` → khi `dev` ổn định, PR `dev` → `main` → merge lên production.
-- **`dev` chỉ là cổng CI**, không deploy riêng — đỡ tốn công dựng thêm Supabase/Mongo/Cloud Run cho môi trường thứ 2. Nếu cần xem giao diện `admin-app` trực quan trước khi merge, dùng Preview Deployment mà Vercel tự tạo cho mỗi PR/branch (không cần cấu hình gì thêm).
+- **`dev` chỉ là cổng CI**, không deploy riêng — đỡ tốn công dựng thêm Supabase/Mongo/Render cho môi trường thứ 2. Nếu cần xem giao diện `admin-app` trực quan trước khi merge, dùng Preview Deployment mà Vercel tự tạo cho mỗi PR/branch (không cần cấu hình gì thêm).
 - **Branch protection** (Settings → Branches, tạo rule cho cả `main` và `dev` ở từng repo):
   - `dev`: bắt buộc PR + CI pass trước khi merge.
   - `main`: bắt buộc PR + CI pass + review từ Code Owners (xem `CODEOWNERS`) — không cho push thẳng, kể cả từ `dev`.

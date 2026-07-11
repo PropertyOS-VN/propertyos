@@ -127,7 +127,7 @@ Label: `type:chore`, `area:admin-app` · Milestone: Giai đoạn 1
 
 **Việc cần làm:**
 - Tạo cluster M0 (free vĩnh viễn) trên MongoDB Atlas nếu chưa có.
-- Whitelist IP (hoặc cho phép `0.0.0.0/0` tạm thời lúc dev, siết lại khi deploy Cloud Run).
+- Whitelist IP (hoặc cho phép `0.0.0.0/0` — Render free tier cũng không có static IP nên vẫn cần mở khi deploy production, tương tự lúc dev).
 - Lấy connection string, điền `MONGODB_ATLAS_URI` vào `.env.local` của `billing-service`.
 
 **Tiêu chí hoàn thành:**
