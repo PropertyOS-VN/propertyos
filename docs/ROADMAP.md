@@ -31,7 +31,7 @@
 - API ghi nhận thanh toán, cập nhật trạng thái invoice.
 - Gửi email qua Resend sau khi sinh hóa đơn.
 - Verify JWT Supabase cho request gọi từ `admin-app` (Spring Security).
-- Deploy thử lên Google Cloud Run.
+- Deploy thử lên Render.
 - **Milestone**: tạo hợp đồng ở Next.js → job Java tự sinh hóa đơn đúng kỳ → ghi nhận thanh toán → nhận được email.
 
 ## Giai đoạn 5 — Tích hợp & UI hóa đơn (Next.js) (1 tuần)
@@ -40,8 +40,8 @@
 
 ## Giai đoạn 6 — Deploy production (vài ngày)
 - Deploy `apps/admin-app` lên Vercel (free), set biến môi trường Supabase.
-- Deploy `apps/billing-service` lên Google Cloud Run (free tier), set biến môi trường Postgres/Mongo connection.
-- Set Cloud Scheduler (nếu muốn kiểm soát lịch sinh hóa đơn từ ngoài thay vì `@Scheduled` cố định trong code).
+- Deploy `apps/billing-service` lên Render (free, không cần thẻ), set biến môi trường Postgres/Mongo connection.
+- Nếu muốn kiểm soát lịch sinh hóa đơn từ ngoài thay vì `@Scheduled` cố định trong code, có thể dùng Render Cron Jobs (dịch vụ riêng, cũng free) gọi vào 1 endpoint thay vì tự chạy scheduler trong app.
 
 ## Giai đoạn 7 — Mở rộng (sau MVP)
 - Portal khách thuê, thanh toán online (VNPay/Momo).

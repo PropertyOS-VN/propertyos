@@ -19,7 +19,7 @@ Kiến trúc: **Next.js full-stack** (`apps/admin-app`) xử lý auth + CRUD tò
 |---|---|
 | [`propertyos`](https://github.com/PropertyOS-VN/propertyos) (repo này) | Docs, kiến trúc chung, AGENTS.md/CLAUDE.md, `.cursor/rules`, `.claude/skills`, docker-compose dev local |
 | [`propertyos-admin-app`](https://github.com/PropertyOS-VN/propertyos-admin-app) | Next.js — app quản lý (chủ nhà/quản lý): auth, building, room, contract qua Supabase |
-| [`propertyos-billing-service`](https://github.com/PropertyOS-VN/propertyos-billing-service) | Spring Boot — sinh hoá đơn, tính toán tài chính, deploy Cloud Run |
+| [`propertyos-billing-service`](https://github.com/PropertyOS-VN/propertyos-billing-service) | Spring Boot — sinh hoá đơn, tính toán tài chính, deploy Render |
 
 Dự kiến sau này thêm `propertyos-tenant-app` (hoặc tên tương tự) — app cho người thuê xem thông tin nhà/phòng để thuê, cũng sẽ là 1 repo + submodule riêng. Chưa tạo, sẽ bổ sung khi cần.
 
@@ -54,8 +54,8 @@ curl http://localhost:8082/health   # billing-service
 
 | Thành phần | Nền tảng | Ghi chú |
 |---|---|---|
-| `apps/admin-app` | [Vercel](https://vercel.com) (free) | Root Directory = `apps/admin-app` |
-| `apps/billing-service` | [Google Cloud Run](https://cloud.google.com/run) (free tier) | `gcloud run deploy` — xem `apps/billing-service/README.md` |
+| `apps/admin-app` | [Vercel](https://vercel.com) (free) | Import repo `propertyos-admin-app`, Root Directory mặc định |
+| `apps/billing-service` | [Render](https://render.com) (free, không cần thẻ) | Deploy bằng Dockerfile có sẵn — xem `apps/billing-service/README.md` |
 | Postgres + Auth | [Supabase](https://supabase.com) (free) | |
 | MongoDB | [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) M0 (free vĩnh viễn) | |
 
